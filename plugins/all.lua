@@ -42,7 +42,7 @@ local function show_group_settings(target)
     end
   end
   local settings = data[tostring(target)]['settings']
-  local text = "Lock group name : "..settings.lock_name.."\nLock group photo : "..settings.lock_photo.."\nLock group member : "..settings.lock_member.."\nflood sensitivity : "..NUM_MSG_MAX
+  local text = "قفل اسم گروه : "..settings.lock_name.."\nقفل عکس گروه: "..settings.lock_photo.."\nقفل ورود اعضا به گروه "..settings.lock_member.."\nحساسیت بن کردن "..NUM_MSG_MAX
   return text
 end
 
@@ -50,7 +50,7 @@ local function get_description(target)
   local data = load_data(_config.moderation.data)
   local data_cat = 'description'
   if not data[tostring(target)][data_cat] then
-    return 'No description available.'
+    return 'توضیحی برای این گروه وجود ندارد.'
   end
   local about = data[tostring(target)][data_cat]
   return about
@@ -60,7 +60,7 @@ local function get_rules(target)
   local data = load_data(_config.moderation.data)
   local data_cat = 'rules'
   if not data[tostring(target)][data_cat] then
-    return 'No rules available.'
+    return 'قانونی موجود نیست.'
   end
   local rules = data[tostring(target)][data_cat]
   return rules
@@ -69,13 +69,13 @@ end
 local function modlist(target)
   local data = load_data(_config.moderation.data)
   if not data[tostring(target)] then
-    return 'Group is not added.'
+    return 'گروه به لیست گروه ها اضافه نشده است.'
   end
   if next(data[tostring(target)]['moderators']) == nil then
-    return 'No moderator in this group.'
+    return 'هیچ مدیری در این گروه وجود ندارد.'
   end
   local i = 1
-  local message = '\nList of moderators :\n'
+  local message = '\nلیست مدیران :\n'
   for k,v in pairs(data[tostring(target)]['moderators']) do
     message = message ..i..' - @'..v..' [' ..k.. '] \n'
     i = i + 1
@@ -87,19 +87,19 @@ local function get_link(target)
   local data = load_data(_config.moderation.data)
   local group_link = data[tostring(target)]['settings']['set_link']
   if not group_link then 
-    return "No link"
+    return "لینک موجود نیست."
   end
-  return "Group link:\n"..group_link
+  return "لینک گروه:\n"..group_link
 end
 
 local function all(target, receiver)
   local text = "All the things I know about this group \n \n"
   local settings = show_group_settings(target)
-  text = text.."Group settings \n"..settings
+  text = text.."تنظیمات گروه \n"..settings
   local rules = get_rules(target)
-  text = text.."\n\nRules: \n"..rules
+  text = text.."\n\nقوانین: \n"..rules
   local description = get_description(target)
-  text = text.."\n\nAbout: \n"..description
+  text = text.."\n\nدرباره: \n"..description
   local modlist = modlist(target)
   text = text.."\n\n"..modlist
   local link = get_link(target)
